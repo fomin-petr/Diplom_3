@@ -1,3 +1,4 @@
+import allure
 import pytest
 from selenium import webdriver
 from data import Urls
@@ -12,11 +13,13 @@ def pytest_addoption(parser):
     parser.addoption('--browser', default='chrome', choices=("chrome", "firefox"))
 
 
+@allure.step('Получение тестируемого браузера из командной строки')
 @pytest.fixture(scope="session")
 def browser(request):
     return request.config.getoption("browser")
 
 
+@allure.step('Открытие выбранного браузера на главной странице сайта')
 @pytest.fixture
 def main_page(browser):
     if browser == "chrome":
@@ -28,6 +31,7 @@ def main_page(browser):
     driver.quit()
 
 
+@allure.step('Открытие выбранного браузера на странице авторизации')
 @pytest.fixture
 def login_page(browser):
     if browser == "chrome":
@@ -39,6 +43,7 @@ def login_page(browser):
     driver.quit()
 
 
+@allure.step('Открытие выбранного браузера на странице восстановления пароля')
 @pytest.fixture
 def forgot_password_page(browser):
     if browser == "chrome":
@@ -50,6 +55,7 @@ def forgot_password_page(browser):
     driver.quit()
 
 
+@allure.step('Открытие выбранного браузера на главной странице сайта с предварительной авторизацией юзера')
 @pytest.fixture
 def main_page_logged_in(browser):
     access_token, email, user, password = helper.create_user()
@@ -70,6 +76,7 @@ def main_page_logged_in(browser):
     helper.delete_user(access_token)
 
 
+@allure.step('Открытие выбранного браузера на главной странице сайта с предварительной авторизацией юзера и созданным заказом')
 @pytest.fixture
 def main_page_logged_in_with_created_order(browser):
     access_token, email, user, password = helper.create_user()
@@ -91,6 +98,7 @@ def main_page_logged_in_with_created_order(browser):
     helper.delete_user(access_token)
 
 
+@allure.step('Открытие выбранного браузера на странице Лента заказов')
 @pytest.fixture
 def feed_page(browser):
     if browser == "chrome":
